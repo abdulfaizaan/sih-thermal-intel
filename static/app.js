@@ -1401,46 +1401,6 @@ function downloadGeoJSON() {
     URL.revokeObjectURL(a.href);
 }
 
-window.switchDemoRole = function(role) {
-    Auth.switchRole(role, true);
-};
-
-window.switchPortal = function(portalName) {
-    currentPortal = portalName;
-    
-    // 1. Hide all portals and reset tabs
-    const portals = ['ntro', 'command', 'responder', 'citizen'];
-    portals.forEach(p => {
-        const portalEl = document.getElementById(`portal-${p}`);
-        if (portalEl) portalEl.classList.add('hidden');
-        
-        const tabEl = document.getElementById(`tab-${p}`);
-        if (tabEl) {
-            tabEl.className = "flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all";
-        }
-    });
-
-    // 2. Show active portal
-    const activePortalEl = document.getElementById(`portal-${portalName}`);
-    if (activePortalEl) activePortalEl.classList.remove('hidden');
-
-    // 3. Highlight active tab
-    const activeTabEl = document.getElementById(`tab-${portalName}`);
-    if (activeTabEl) {
-        activeTabEl.className = "flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-200/80 dark:border-slate-700 transition-all font-bold";
-    }
-    
-    // 4. Update URL parameter for persistence without reload
-    const url = new URL(window.location);
-    url.searchParams.set('portal', portalName);
-    window.history.pushState({}, '', url);
-
-    // Refresh UI with latest data
-    if (typeof renderIncidents === 'function') {
-        renderIncidents();
-    }
-};
-
 // App Initialization
 document.addEventListener('DOMContentLoaded', async () => {
     if (window.lucide) lucide.createIcons();
